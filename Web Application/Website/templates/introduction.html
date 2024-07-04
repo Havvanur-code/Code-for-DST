@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+	<title>Introduction </title>
+</head>
+<body>
+
+<!--Buttons for Navigation-->
+<a href="http://127.0.0.1:5000" class="button">Home</a>
+
+	<a href="http://127.0.0.1:5000/introduction" class="button">Introduction</a>
+
+	<a href="http://127.0.0.1:5000/pairwisecomparison" class="disabled-link" onclick="return false;">Comparison</a>
+
+	<a href="http://127.0.0.1:5000/calculationandresult" class="disabled-link" onclick="return false;">Calculation</a>
+
+	<a href="http://127.0.0.1:5000/help" class="button">Help</a>
+
+
+	<a href="http://127.0.0.1:5000/pairwisecomparison" class="next">NEXT</a>
+
+<h3> Introduction</h3>
+<ul class="ull">
+   <div style="font-size: 25px"><strong><u>How is the Decision Process working?:</u></strong></div>
+   <br>
+  <li>At first you are conducting the pairwise comparison of the criteria.</li>
+  <li>Then the Consistency Ratio is calculated. A lower consistency ratio indicates greater reliability and <br>
+	  confidence in the decision-making process, while a higher ratio suggests a need for reconsideration or <br>
+	  refinement of the pairwise comparisons to enhance the robustness of the AHP model.</li>
+	<li>Afterwards you can see the criteria weight and sensitivity analysis.</li>
+	<li>Lastly the Alternatives (Technologies) will be conmpared and the most suitable ILT will be recommended.</li>
+	<li>At the end you can download the report of the calculation.</li>
+</ul>
+<ul class="ulll">
+	   <div style="font-size: 25px"><strong><u>Which criteria are considered?:</u></strong></div>
+   <br>
+  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Accuracy</li>
+  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Cost</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Robustness</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Coverage Area</li>
+	  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Response Time</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Power Consumption</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Scalability</li>
+</ul>
+<ul class="ullll">
+	   <div style="font-size: 25px"><strong><u>Which alternatives are compared?:</u></strong></div>
+   <br>
+  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- WIFI</li>
+  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- RFID</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Bluetooth</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- UWB</li>
+	  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- VLC</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Zigbee</li>
+	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Ultrasound</li>
+</ul>
+<ul class="ulllll">
+	   <div style="font-size: 25px"><strong><u>How is the result calculated?:</u></strong></div>
+   <br>
+  <li>The result will be calculated based on the AHP calculation method.</li>
+  <li>Analytic Hierarchy Process (AHP) is a decision-making methodology that systematically <br>
+	  breaks down complex problems into a hierarchy of criteria and alternatives, facilitating<br>
+	  pairwise comparisons to quantify preferences and derive a consistent overall ranking or choice.</li>
+</ul>
+
+<div class="rectangle"></div>
+</body>
+</html>

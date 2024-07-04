@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/tabs.css') }}">
+    <title>calculation</title>
+
+	<!--for "graphic"-->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+</head>
+<body>
+<!--Buttons for Navigation-->
+	<a href="http://127.0.0.1:5000" class="button">Home</a>
+
+	<a href="http://127.0.0.1:5000/introduction" class="button">Introduction</a>
+
+	<a href="http://127.0.0.1:5000/pairwisecomparison" class="button">Comparison</a>
+
+	<a href="http://127.0.0.1:5000/calculationandresult" class="button">Calculation</a>
+
+	<a href="http://127.0.0.1:5000/help" class="button">Help</a>
+
+
+<a href="http://127.0.0.1:5000/help" class="help2">Click here for more information about the calculation</a>
+
+
+<!--Creation of tabs-->
+    <div class="mytabs">
+		<input type="radio" id="tab1" name="mytabs" checked="checked">
+		<label for="tab1">Your Input</label>
+		<div class="tab">
+
+			<h2 style="white-space: nowrap">Consistency Ratio</h2>
+<div style=" font-size: 30px; border: 2px solid black; text-align: center;">{{ criteria.consistency_ratio }}</div>
+
+
+<!--Creation of warning if CR value too high-->
+{% if criteria.consistency_ratio > 0.1 %}
+    <p style="color: red; font-weight: bold; font-size: 20px;" class="warning">Your Consistency Ratio is > 0.1 : <br>
+        <br>
+        Please go back to Pairwise comparison & do corrections</p>
+            <span style="margin-left: 5px; font-size: 30px; color: red; position: absolute;
+    top: 145px; left: 50px;">&rarr;</span> <!-- Unicode-Pfeil -->
+            <br>
+				<!--Button for going back to Pairwisecomparison-->
+			<a href="http://127.0.0.1:5000/pairwisecomparison" class="backtopairwise">Back to Pairwisecomparison</a>
+
+<button id="openModalBtn" class="helpforCR">Why is CR <= 0.1 important?</button>
+
+<!-- Das <dialog>-Element wird mit einem "id" attribut für die Steuerung verwendet -->
+<dialog id="myModal">
+    <h2>Consistency Ratio:</h2>
+  <p>The CR is used to assess the consistency of the decision-maker's judgments during the pairwise comparisons. <br>
+      When making these comparisons, it is essential that the decision-maker maintains consistency to ensure the <br>
+      reliability and validity of the AHP results. The CR helps to quantify the extent of inconsistency in the comparisons.<br>
+      <br>
+      <strong>Here's why a Consistency Ratio of 0.1 or lower is considered important:</strong><br>
+      <br>
+<strong>Reliability of Judgments:</strong> <br>
+      A low CR indicates a higher level of consistency in the decision-maker's <br>
+      judgments. Consistency is crucial for the reliability of the AHP results. <br>
+      If the judgments are inconsistent, it can lead to unreliable priorities and potentially flawed decision outcomes.<br>
+<strong>Avoiding Random Judgments:</strong> <br>
+      A CR below 0.1 suggests that the inconsistencies are not likely due to random errors. If the CR is significantly higher, it may indicate that the <br>
+      decision-maker's judgments are arbitrary or lack a rational basis, making the AHP results less trustworthy.<br>
+<strong>Maintaining Model Integrity:</strong> <br>
+      AHP relies on a mathematical model to derive priorities, and this model <br>
+      assumes a consistent decision-maker. When the CR is low, it suggests <br>
+      that the decision-maker's comparisons are in alignment with the model, supporting the integrity of the overall AHP process.<br>
+<strong>Decision Quality:</strong> <br>
+      Inconsistent judgments can lead to suboptimal or contradictory decisions. <br>
+      Keeping the CR low helps ensure that the decision outcomes are logical and meaningful, contributing to better decision quality.</p>
+  <button id="closeModalBtn">Close</button>
+</dialog>
+
+<script>
+  document.getElementById('openModalBtn').addEventListener('click', function() {
+    // Das <dialog>-Element wird geöffnet, wenn der Button geklickt wird
+    document.getElementById('myModal').showModal();
+  });
+
+  document.getElementById('closeModalBtn').addEventListener('click', function() {
+    // Das <dialog>-Element wird geschlossen, wenn der Schließen-Button geklickt wird
+    document.getElementById('myModal').close();
+  });
+</script>
+
+
+
+{% else %}
+    <p style="color: green; font-weight: bold; font-size: 20px; white-space: nowrap; position: absolute;
+    top: 139px; left: 100px;" class="warning">Your Consistency Ratio is good :<br>
+        <br>
+        You can continue</p>
+    <span style="margin-left: 5px; font-size: 30px; color: green; position: absolute; top: 150px; left: 50px;">&rarr;</span> <!-- Unicode-Pfeil -->
+
+{% endif %}
+<br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+<!--Creation of Overview to check if user input data is transferred correctly-->
+<h2 style="white-space: nowrap">Below you can see your input for pairwise comparison:</h2>
+            <br>
+    <h8>Pairwise Criteria Comparison Overview</h8>
+            <br>
+    <table style="width: 100%; border-collapse: separate;">
+        <br>
+        <tr>
+            <th style="white-space: nowrap; background-color: lightgrey">Criteria</th>
+            <th style="white-space: nowrap; background-color: lightgrey">Comparison value</th>
+        </tr>
+        <br>
+        {% for criteria, comparison in criteria_comparisons.items() %}
+            <tr>
+                <td style="white-space: nowrap; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;" >{{ criteria }}</td>
+                <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9">{{ comparison }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+		</div>
+
+
+<!--Creation of next tab-->
+		<input type="radio" id="tab2" name="mytabs">
+		<label for="tab2">Criteria Weights</label>
+		<div class="tab">
+
+			<h2>Criteria Weights</h2>
+    <table style="width: 100%; border-collapse: separate;">
+        <tr>
+            <th style="padding: 1px; border-bottom: 1px solid #ddd; background-color: lightgrey;">Criteria</th>
+            <th style="text-align: right; padding: 1px; border-bottom: 1px solid #ddd; background-color: lightgrey;">Weight</th>
+        </tr>
+ <tr>
+    <td style="padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">Accuracy</td>
+    <td style="text-align: right; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ accuracy.global_weight }}</td>
+  </tr>
+  <tr>
+    <td style="padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">Cost</td>
+    <td style="text-align: right; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ cost.global_weight }}</td>
+  </tr>
+      <td style="padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">Robustness</td>
+    <td style="text-align: right; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ robustness.global_weight }}</td>
+  </tr>
+        <td style="padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">Coverage Area</td>
+    <td style="text-align: right; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ coveragearea.global_weight }}</td>
+  </tr>
+ </tr>
+        <td style="padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">Response Time</td>
+    <td style="text-align: right; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ responsetime.global_weight }}</td>
+  </tr>
+        </tr>
+        <td style="padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">Power Consumption</td>
+    <td style="text-align: right; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ powerconsumption.global_weight }}</td>
+  </tr>
+          <td style="padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">Scalability</td>
+    <td style="text-align: right; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ scalability.global_weight }}</td>
+  </tr>
+
+    </table>
+
+
+<!--Creation of grapgh-->
+
+<!--source: https://www.youtube.com/watch?v=E2hytuQvLlE-->
+<canvas id="barChart" width="900" height="400"></canvas>
+<script>
+	var ctx = document.getElementById("barChart").getContext("2d");
+	var barChart = new Chart(ctx, {
+		type: "bar",
+		data: {
+            labels: {{ labels | safe }},
+			datasets: [
+				{
+					label: "Data points",
+					data: {{ values | safe }},
+					backgroundColor: "rgba(75, 192, 192, 0.2)",
+					borderColor: "rgba(75, 192, 192, 1)",
+					borderWidth: 1
+				}
+			]
+		},
+		options: {
+			responsive: false,
+			scales: {
+				y: {
+					beginAtZero: true
+				}
+			}
+		}
+	});
+</script>
+
+
+
+
+		</div>
+
+
+
+<!--Creation of next tab-->
+        <input type="radio" id="tab3" name="mytabs">
+		<label for="tab3">Alternatives Overview</label>
+		<div class="tab">
+
+			<h2>Alternatives Overview</h2>
+
+<ul>
+    {% for alternatives in alternatives %}
+        <li style="font-size: 20px;">{{ alternatives }}</li>
+    {% endfor %}
+</ul>
+
+		</div>
+
+<!--Creation of next tab-->
+		<input type="radio" id="tab4" name="mytabs">
+		<label for="tab4">Technology Recommendation</label>
+		<div class="tab">
+			<h2>Technology Recommendation</h2>
+            <table style="width: 100%; border-collapse: separate;">
+                <tr>
+                    <th style="text-align: center; background-color: lightgrey;">Alternatives</th>
+                    <th style="text-align: center; background-color: lightgrey;">Weight</th>
+                </tr>
+                {% for alternatives, weight in criteria.target_weights.items() %}
+                    <tr>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ alternatives }}</td>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ weight }}</td>
+                    </tr>
+
+
+
+                <!--Creation of collection for technology description -->
+                <h2 class="describtionheading">Description for recommended technology</h2>
+
+                <!--Condition to show only the description for the recommended technology-->
+                {% if loop.first and alternatives == 'UWB' %}
+
+                    <p class="describtion">ULTRA WIDE BAND (UWB) <br>
+                        <br>
+                        Ultra-Wideband (UWB) indoor localization is a <br>
+                        technology that employs radio waves with a very high frequency and low power consumption to <br>
+                        determine the precise location of objects or devices within an indoor environment. UWB <br>
+                        technology operates by transmitting short-duration pulses of radiofrequency signals across <br>
+                        a wide spectrum. <br>
+                        In an indoor localization system using UWB, a device (often a tag or sensor) equipped with <br>
+                        UWB technology communicates with anchor nodes or base stations strategically placed within <br>
+                        the indoor space. The system measures the time it takes for UWB signals to travel between <br>
+                        the device and multiple anchor nodes. By triangulating these time-of-flight measurements, <br>
+                        the system can accurately calculate the device's position in three-dimensional space. <br>
+                        UWB indoor localization offers several advantages, including high accuracy in positioning, <br>
+                        resistance to signal interference, and the ability to work in challenging indoor <br>
+                        environments where traditional localization technologies may face limitations. Applications <br>
+                        of UWB indoor localization range from asset tracking and inventory management to enabling <br>
+                        location-based services in smart buildings, healthcare facilities, and manufacturing <br>
+                        environments.</p>
+
+                {% elif loop.first and alternatives == 'RFID' %}
+                    <p class="describtion">RFID <br>
+                        <br>
+                    RFID indoor localization utilizes Radio-Frequency Identification technology to track and locate <br>
+                        objects or assets within an indoor environment. RFID tags, affixed to objects, communicate <br>
+                        with RFID readers strategically placed indoors. By analyzing the signals and triangulating <br>
+                        readings, the system determines the precise location of tagged items, facilitating <br>
+                        applications like inventory management and asset tracking in indoor spaces.</p>
+
+                {% elif loop.first and alternatives == 'VLC' %}
+                    <p class="describtion">Visible Light Communication (VLC)<br>
+                        <br>
+                        VLC indoor localization employs light signals from LED sources to determine the position of <br>
+                        objects or devices within an indoor space. By analyzing the modulation of light signals and <br>
+                        their time-of-flight, the system calculates accurate locations. VLC indoor localization is <br>
+                        used for applications such as indoor navigation, tracking, and location-based services in <br>
+                        environments where traditional technologies may have limitations.</p>
+                {% elif loop.first and alternatives == 'Ultrasound' %}
+                    <p class="describtion">Ultrasound<br>
+                        <br>
+                        Ultrasound indoor localization uses ultrasonic signals to determine the position of objects <br>
+                        or devices within an indoor space. Transmitters emit ultrasonic waves, and receivers or <br>
+                        sensors analyze the time it takes for these waves to travel, enabling accurate location <br>
+                        calculations. This technology is employed for applications such as indoor positioning, <br>
+                        tracking, and navigation where other localization methods may be less effective.</p>
+                {% elif loop.first and alternatives == 'WIFI' %}
+                    <p class="describtion">WIFI<br>
+                    <br>
+                    WiFi indoor localization utilizes WiFi signals to determine the location of devices within an <br>
+                        indoor environment. By analyzing the strength and propagation of WiFi signals, the system <br>
+                        calculates the position of the device. This technology is commonly used for indoor <br>
+                        navigation, asset tracking, and location-based services in various settings.</p>
+                {% elif loop.first and alternatives == 'Bluetooth' %}
+                    <p class="describtion">Bluetooth<br>
+                    <br>
+                    Bluetooth indoor localization uses Bluetooth signals to determine the location of devices <br>
+                        within an indoor environment. By measuring the strength and proximity of Bluetooth signals, <br>
+                        the system calculates the position of the device. This technology is often employed for <br>
+                        applications such as indoor navigation, asset tracking, and proximity-based services in <br>
+                        various indoor spaces.</p>
+                {% elif loop.first and alternatives == 'Zigbee' %}
+                    <p class="describtion">Zigbee<br>
+                    <br>
+                    Zigbee indoor localization utilizes Zigbee wireless communication technology to determine the <br>
+                        location of devices within an indoor environment. Zigbee devices, equipped with low-power, <br>
+                        short-range radios, communicate with each other in a mesh network. By analyzing the signals <br>
+                        and network topology, the system calculates the position of devices. Zigbee indoor <br>
+                        localization is commonly used for applications such as home automation, industrial <br>
+                        monitoring, and asset tracking in indoor settings.</p>
+                {% endif %}
+            {% endfor %}
+
+            </table>
+
+            <p class="p7">
+            1)<br>
+            2)<br>
+            3)<br>
+            4)<br>
+            5)<br>
+            6)<br>
+            7)<br>
+            </p>
+
+                                        <!--source: https://www.youtube.com/watch?v=E2hytuQvLlE-->
+            <canvas id="barChart9" width="900" height="400"></canvas>
+            <script>
+                var ctx = document.getElementById("barChart9").getContext("2d");
+                var barChart = new Chart(ctx, {
+                    type: "bar",
+                    data: {
+                        labels: {{ labelsrecommendation | safe }},
+                        datasets: [
+                            {
+                                label: "Data points",
+                                data: {{ valuesrecommendation | safe }},
+                                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                                borderColor: "rgba(75, 192, 192, 1)",
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            </script>
+
+			</div>
+
+<!--Creation of next tab-->
+        		<input type="radio" id="tab5" name="mytabs">
+		<label for="tab5">Sensitivity Analysis</label>
+		<div class="tab">
+
+            <h2 class="p6">Sensitivity Analysis Results</h2>
+            <p style="font-size: 23px;" class="p6">The aim of the sensitivity analysis is to assess the robustness and
+                reliability of the decisions made <br>
+                with regard to uncertainties or changes. <br>
+                It makes it possible to determine how sensitive the
+                results of the AHP model are to changes in <br>
+                weightings or preferences.</p>
+            <br>
+
+            <h2 class="p6">Below you can see how the result is changing, if you would increase the relevance
+                of any Criteria 20%</h2>
+
+
+<div class="rectangle2"></div>
+
+
+            <div class="subtabs">
+		<input type="radio" id="tab7" name="subtabs" checked="checked">
+		<label for="tab7">Accuracy</label>
+		<div style="background-color: #f9f9f9;" class="tab">
+
+
+
+
+
+
+<h2 class="p6">Change of result if you would increase Accuracy 20%</h2>
+            <table style="width: 100%; border-collapse: separate;">
+                <tr>
+                    <th style="text-align: center; background-color: lightgrey;">Alternatives</th>
+                    <th style="text-align: center; background-color: lightgrey;">Weight</th>
+                </tr>
+
+            <!--Show how the new technology recommendation would look if you change the value-->
+                {% for alternatives, weight in sensitivity1.target_weights.items() %}
+                    <tr>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ alternatives }}</td>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ weight }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+<!--Creation of graph-->
+<!--Source: https://www.youtube.com/watch?v=E2hytuQvLlE-->
+<canvas id="barChart2" width="450" height="200"></canvas>
+<script>
+	var ctx = document.getElementById("barChart2").getContext("2d");
+	var barChart2 = new Chart(ctx, {
+		type: "bar",
+		data: {
+			labels: {{ labels2 | safe }},
+			datasets: [
+				{
+					label: "Data points",
+					data: {{ values2 | safe }},
+					backgroundColor: "rgba(75, 192, 192, 0.2)",
+					borderColor: "rgba(75, 192, 192, 1)",
+					borderWidth: 1
+				}
+			]
+		},
+		options: {
+			responsive: false,
+			scales: {
+				y: {
+					beginAtZero: true
+				}
+			}
+		}
+	});
+</script>
+            </div>
+
+                <input type="radio" id="tab8" name="subtabs">
+		<label for="tab8">Coverage Area</label>
+		<div style="background-color: #f9f9f9;" class="tab">
+
+        <h2 class="p6">Change of result if you would increase Coverage Area 20%</h2>
+            <table style="width: 100%; border-collapse: separate;">
+                <tr>
+                    <th style="text-align: center; background-color: lightgrey;">Alternatives</th>
+                    <th style="text-align: center; background-color: lightgrey;">Weight</th>
+                </tr>
+                {% for alternatives, weight in sensitivity2.target_weights.items() %}
+                    <tr>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ alternatives }}</td>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ weight }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+
+<!--Source: https://www.youtube.com/watch?v=E2hytuQvLlE-->
+<canvas id="barChart3" width="450" height="200"></canvas>
+<script>
+	var ctx = document.getElementById("barChart3").getContext("2d");
+	var barChart3 = new Chart(ctx, {
+		type: "bar",
+		data: {
+			labels: {{ labels3 | safe }},
+			datasets: [
+				{
+					label: "Data points",
+					data: {{ values3 | safe }},
+					backgroundColor: "rgba(75, 192, 192, 0.2)",
+					borderColor: "rgba(75, 192, 192, 1)",
+					borderWidth: 1
+				}
+			]
+		},
+		options: {
+			responsive: false,
+			scales: {
+				y: {
+					beginAtZero: true
+				}
+			}
+		}
+	});
+</script>
+
+</div>
+
+                <input type="radio" id="tab9" name="subtabs">
+		<label for="tab9">Power Consumption</label>
+		<div style="background-color: #f9f9f9;" class="tab">
+
+        <h2 class="p6">Change of result if you would increase Power Consumption 20%</h2>
+            <table style="width: 100%; border-collapse: separate;">
+                <tr>
+                    <th style="text-align: center; background-color: lightgrey;">Alternatives</th>
+                    <th style="text-align: center; background-color: lightgrey;">Weight</th>
+                </tr>
+                {% for alternatives, weight in sensitivity3.target_weights.items() %}
+                    <tr>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ alternatives }}</td>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ weight }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+
+<!--Source: https://www.youtube.com/watch?v=E2hytuQvLlE-->
+<canvas id="barChart4" width="450" height="200"></canvas>
+<script>
+	var ctx = document.getElementById("barChart4").getContext("2d");
+	var barChart4 = new Chart(ctx, {
+		type: "bar",
+		data: {
+			labels: {{ labels4 | safe }},
+			datasets: [
+				{
+					label: "Data points",
+					data: {{ values4 | safe }},
+					backgroundColor: "rgba(75, 192, 192, 0.2)",
+					borderColor: "rgba(75, 192, 192, 1)",
+					borderWidth: 1
+				}
+			]
+		},
+		options: {
+			responsive: false,
+			scales: {
+				y: {
+					beginAtZero: true
+				}
+			}
+		}
+	});
+</script>
+            </div>
+
+
+                <input type="radio" id="tab10" name="subtabs">
+		<label for="tab10">Cost</label>
+		<div style="background-color: #f9f9f9;" class="tab">
+
+
+            <h2 class="p6">Change of result if you would increase Cost 20%</h2>
+            <table style="width: 100%; border-collapse: separate;">
+                <tr>
+                    <th style="text-align: center; background-color: lightgrey;">Alternatives</th>
+                    <th style="text-align: center; background-color: lightgrey;">Weight</th>
+                </tr>
+                {% for alternatives, weight in sensitivity4.target_weights.items() %}
+                    <tr>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ alternatives }}</td>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ weight }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+
+<!--Source: https://www.youtube.com/watch?v=E2hytuQvLlE-->
+<canvas id="barChart5" width="450" height="200"></canvas>
+<script>
+	var ctx = document.getElementById("barChart5").getContext("2d");
+	var barChart5 = new Chart(ctx, {
+		type: "bar",
+		data: {
+			labels: {{ labels5 | safe }},
+			datasets: [
+				{
+					label: "Data points",
+					data: {{ values5 | safe }},
+					backgroundColor: "rgba(75, 192, 192, 0.2)",
+					borderColor: "rgba(75, 192, 192, 1)",
+					borderWidth: 1
+				}
+			]
+		},
+		options: {
+			responsive: false,
+			scales: {
+				y: {
+					beginAtZero: true
+				}
+			}
+		}
+	});
+</script>
+
+            </div>
+
+
+                <input type="radio" id="tab11" name="subtabs">
+		<label for="tab11">Scalability</label>
+		<div style="background-color: #f9f9f9;" class="tab">
+
+            <h2 class="p6">Change of result if you would increase Scalability 20%</h2>
+            <table style="width: 100%; border-collapse: separate;">
+                <tr>
+                    <th style="text-align: center; background-color: lightgrey;">Alternatives</th>
+                    <th style="text-align: center; background-color: lightgrey;">Weight</th>
+                </tr>
+                {% for alternatives, weight in sensitivity5.target_weights.items() %}
+                    <tr>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ alternatives }}</td>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ weight }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+
+<!--Source: https://www.youtube.com/watch?v=E2hytuQvLlE-->
+<canvas id="barChart6" width="450" height="200"></canvas>
+<script>
+	var ctx = document.getElementById("barChart6").getContext("2d");
+	var barChart6 = new Chart(ctx, {
+		type: "bar",
+		data: {
+			labels: {{ labels6 | safe }},
+			datasets: [
+				{
+					label: "Data points",
+					data: {{ values6 | safe }},
+					backgroundColor: "rgba(75, 192, 192, 0.2)",
+					borderColor: "rgba(75, 192, 192, 1)",
+					borderWidth: 1
+				}
+			]
+		},
+		options: {
+			responsive: false,
+			scales: {
+				y: {
+					beginAtZero: true
+				}
+			}
+		}
+	});
+</script>
+
+            </div>
+
+                <input type="radio" id="tab12" name="subtabs">
+		<label for="tab12">Response Time</label>
+		<div style="background-color: #f9f9f9;" class="tab">
+
+
+            <h2 class="p6">Change of result if you would increase Response Time 20%</h2>
+            <table style="width: 100%; border-collapse: separate;">
+                <tr>
+                    <th style="text-align: center; background-color: lightgrey;">Alternatives</th>
+                    <th style="text-align: center; background-color: lightgrey;">Weight</th>
+                </tr>
+                {% for alternatives, weight in sensitivity6.target_weights.items() %}
+                    <tr>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ alternatives }}</td>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ weight }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+
+<!--Source: https://www.youtube.com/watch?v=E2hytuQvLlE-->
+<canvas id="barChart7" width="450" height="200"></canvas>
+<script>
+	var ctx = document.getElementById("barChart7").getContext("2d");
+	var barChart7 = new Chart(ctx, {
+		type: "bar",
+		data: {
+			labels: {{ labels7 | safe }},
+			datasets: [
+				{
+					label: "Data points",
+					data: {{ values7 | safe }},
+					backgroundColor: "rgba(75, 192, 192, 0.2)",
+					borderColor: "rgba(75, 192, 192, 1)",
+					borderWidth: 1
+				}
+			]
+		},
+		options: {
+			responsive: false,
+			scales: {
+				y: {
+					beginAtZero: true
+				}
+			}
+		}
+	});
+</script>
+
+            </div>
+
+                <input type="radio" id="tab13" name="subtabs">
+		<label for="tab13">Robustness</label>
+		<div style="background-color: #f9f9f9;" class="tab">
+
+            <h2 class="p6">Change of result if you would increase Robustness 20%</h2>
+            <table style="width: 100%; border-collapse: separate;">
+                <tr>
+                    <th style="text-align: center; background-color: lightgrey;">Alternatives</th>
+                    <th style="text-align: center; background-color: lightgrey;">Weight</th>
+                </tr>
+                {% for alternatives, weight in sensitivity7.target_weights.items() %}
+                    <tr>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ alternatives }}</td>
+                        <td style="text-align: center; padding: 1px; border-bottom: 1px solid #ddd; background-color: #f9f9f9;">{{ weight }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+
+<!--Source: https://www.youtube.com/watch?v=E2hytuQvLlE-->
+<canvas id="barChart8" width="450" height="200"></canvas>
+<script>
+	var ctx = document.getElementById("barChart8").getContext("2d");
+	var barChart8 = new Chart(ctx, {
+		type: "bar",
+		data: {
+			labels: {{ labels8 | safe }},
+			datasets: [
+				{
+					label: "Data points",
+					data: {{ values8 | safe }},
+					backgroundColor: "rgba(75, 192, 192, 0.2)",
+					borderColor: "rgba(75, 192, 192, 1)",
+					borderWidth: 1
+				}
+			]
+		},
+		options: {
+			responsive: false,
+			scales: {
+				y: {
+					beginAtZero: true
+				}
+			}
+		}
+	});
+</script>
+
+            </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+		<input type="radio" id="tab6" name="mytabs">
+		<label for="tab6">Export</label>
+		<div class="tab">
+			<h2>Export</h2>
+<!--Source: https://www.youtube.com/watch?v=ZDR7-iSuwkQ-->
+
+
+    <p style="white-space: nowrap; font-size: 23px">Click the button to download your results:</p>
+
+
+
+        <a href="http://127.0.0.1:5000/generate_pdf1"
+           download="Summarized_report.pdf" class="pdf">Download summarized PDF
+        </a>
+
+        <a href="http://127.0.0.1:5000/generate_pdf2"
+	        download="Detailed_report.pdf" class="pdf2">Download detailed PDF
+	    </a>
+
+
+			</div>
+
+
+
+	</div>
+
+
+
+
+
+
+
+</body>
+</html>

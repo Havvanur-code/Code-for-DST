@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+	<title>Home</title>
+</head>
+<body>
+<h1 style="font-size: 50px; position: absolute; top: 100px; left: 400px"> Welcome to the</h1>
+<h1 style="font-size: 40px; color: #217BB1; text-align: center; position: absolute; top: 180px; left: 150px;
+border: 5px solid #217BB1; padding: 20px; background-color: #f9f9f9">Decision Support Tool for <br>
+	Indoor Localisation Technology Selection</h1>
+
+<div class="rectangle1"></div>
+
+
+<div style="font-weight: bold; font-size: 25px; text-align: center; position: absolute; top: 410px; left: 150px">
+	Before you start, you can watch this video, to learn more about "How this Tool works":</div>
+
+<!--Buttons for Navigation-->
+<a href="http://127.0.0.1:5000" class="button">Home</a>
+
+
+	<a href="http://127.0.0.1:5000/introduction" class="disabled-link" onclick="return false;">Introduction</a>
+
+	<a href="http://127.0.0.1:5000/pairwisecomparison" class="disabled-link" onclick="return false;">Comparison</a>
+
+	<a href="http://127.0.0.1:5000/calculationandresult" class="disabled-link" onclick="return false;">Calculation</a>
+
+	<a href="http://127.0.0.1:5000/help" class="button">Help</a>
+
+<video class="video" width="740" height="460" controls>
+  <source src="{{ url_for('static', filename='video/USETHISVIDEO.mp4') }}" type="video/mp4">
+</video>
+
+
+<!--Buttons for going to next page-->
+	<a href="http://127.0.0.1:5000/introduction" class="start">START</a>
+
+
+</body>
+</html>

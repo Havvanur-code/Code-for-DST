@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>pairwisecomparison</title>
+
+</head>
+<body>
+<!-- Buttons for Navigation -->
+<a href="http://127.0.0.1:5000" class="button">Home</a>
+<a href="http://127.0.0.1:5000/introduction" class="button">Introduction</a>
+<a href="http://127.0.0.1:5000/pairwisecomparison" class="button">Comparison</a>
+<a href="http://127.0.0.1:5000/calculationandresult" class="disabled-link" onclick="return false;">Calculation</a>
+<a href="http://127.0.0.1:5000/help" class="button">Help</a>
+</body>
+
+    <!-- Definiere die Optionen einmal -->
+    <template id="template-options">
+        <option value="9">9</option>
+        <option value="5">5</option>
+        <option value="7">7</option>
+        <option value="3">3</option>
+        <option value="1" selected>1</option>
+        <option value="0.333">1/3</option>
+        <option value="0.200">1/5</option>
+        <option value="0.1428">1/7</option>
+        <option value="0.111">1/9</option>
+    </template>
+
+    <!-- Funktion zum Hinzufügen der Optionen zu jedem Select-Element -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const templateOptions = document.getElementById("template-options").content;
+            document.querySelectorAll("select[name='comparison']").forEach(select => {
+                select.appendChild(templateOptions.cloneNode(true));
+            });
+        });
+    </script>
+
+
+<h3> Pairwise Comparison for each Criteria</h3>
+<div class="comparisoncommand">Please conduct the pairwise comparison</div>
+<form action=/calculationandresult method="POST" class="comparison">
+         <label>
+          How important is <strong>Accuracy</strong> in comparison to <strong>Coverage Area</strong> ?:
+          <select name="comparison"></select>
+        </label>
+	<label>
+          How important is <strong>Accuracy</strong> in comparison to <strong>Power Consumption</strong> ?:
+          <select name="comparison"></select>
+        </label>
+	<label>
+          How important is <strong>Accuracy</strong> in comparison to <strong>Cost</strong> ?:
+         <select name="comparison"></select>
+        </label>
+	<label>
+          How important is <strong>Accuracy</strong> in comparison to <strong>Scalability</strong> ?:
+          <select name="comparison"></select>
+        </label>
+	<label>
+          How important is <strong>Accuracy</strong> in comparison to <strong>Response Time</strong> ?:
+          <select name="comparison"></select>
+        </label>
+	<label>
+          How important is <strong>Accuracy</strong> in comparison to <strong>Robustness</strong> ?:
+           <select name="comparison"></select>
+        </label>
+    <br>
+    <br>
+    <label>
+          How important is <strong>Coverage Area</strong> in comparison to <strong>Power Consumption</strong> ?:
+          <select name="comparison"></select>
+        </label>
+    <label>
+          How important is <strong>Coverage Area</strong> in comparison to <strong>Cost</strong> ?:
+          <select name="comparison"></select>
+        </label>
+    <label>
+          How important is <strong>Coverage Area</strong> in comparison to <strong>Scalability</strong> ?:
+          <select name="comparison"></select>
+        </label>
+    <label>
+          How important is <strong>Coverage Area</strong> in comparison to <strong>Response Time</strong> ?:
+          <select name="comparison"></select>
+        </label>
+    <label>
+          How important is <strong>Coverage Area</strong> in comparison to <strong>Robustness</strong> ?:
+          <select name="comparison"></select>
+        </label>
+        <br>
+    <br>
+    <label>
+          How important is <strong>Power Consumption</strong> in comparison to <strong>Cost</strong> ?:
+          <select name="comparison"></select>
+        </label>
+    <label>
+          How important is <strong>Power Consumption</strong> in comparison to <strong>Scalability</strong> ?:
+          <select name="comparison"></select>
+        </label>
+    <label>
+          How important is <strong>Power Consumption</strong> in comparison to <strong>Response Time</strong> ?:
+          <select name="comparison"></select>
+        </label>
+    <label>
+          How important is <strong>Power Consumption</strong> in comparison to <strong>Robustness</strong> ?:
+          <select name="comparison"></select>
+        </label>
+    <br>
+    <br>
+    <label>
+          How important is <strong>Cost</strong> in comparison to <strong>Scalability</strong> ?:
+          <select name="comparison"></select>
+        </label>
+    <label>
+          How important is <strong>Cost</strong> in comparison to <strong>Response Time</strong> ?:
+          <select name="comparison"></select>
+        </label>
+    <label>
+          How important is <strong>Cost</strong> in comparison to <strong>Robustness</strong> ?:
+          <select name="comparison"></select>
+        </label>
+    <br>
+    <br>
+    <label>
+          How important is <strong>Scalability</strong> in comparison to <strong>Response Time</strong> ?:
+          <select name="comparison"></select>
+        </label>
+    <label>
+          How important is <strong>Scalability</strong> in comparison to <strong>Robustness</strong> ?:
+          <select name="comparison"></select>
+        </label>
+    <br>
+    <br>
+    <label>
+          How important is <strong>Response Time</strong> in comparison to <strong>Robustness</strong> ?:
+          <select name="comparison"></select>
+        </label>
+    <br>
+  <button class=submitcomparison onclick="submit">SUBMIT</button>
+</form>
+
+<a href="http://127.0.0.1:5000/help" class="help">Click here for more information about the pairwise comparison</a>
+
+
+
+
+<ul class="ul">
+	<br>
+    <div><strong><u>Saaty's Scale:</u></strong></div>
+    <br>
+	<li>&nbsp;&nbsp;9 &nbsp;= Extremely Important</li>
+    <li>&nbsp;&nbsp;7 &nbsp;= Very Strong Importance</li>
+    <li>&nbsp;&nbsp;5 &nbsp;= Strong Importance</li>
+    <li>&nbsp;&nbsp;3 &nbsp;= Moderate Importance</li>
+    <li>&nbsp;&nbsp;1 &nbsp; = Equal Importance</li>
+	<li>1/3 = Inverse value to 3 (Moderate Unimportance)</li>
+    <li>1/5 = Inverse value to 5 (Strong Unimportance)</li>
+	<li>1/7 = Inverse value to 7 (Very Strong Unimportance)</li>
+	<li>1/9 = Inverse value to 9 (Extremely Unimportant)</li>
+    <br>
+
+</ul>
+
+
+
+</body>
+</html>

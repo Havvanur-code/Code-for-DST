@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Help</title>
+</head>
+<body>
+
+<!--Buttons for Navigation-->
+<a href="http://127.0.0.1:5000" class="button">Home</a>
+
+<a href="http://127.0.0.1:5000/introduction" class="disabled-link" onclick="return false;">Introduction</a>
+
+<a href="http://127.0.0.1:5000/pairwisecomparison" class="disabled-link" onclick="return false;">Comparison</a>
+
+<a href="http://127.0.0.1:5000/calculationandresult" class="disabled-link" onclick="return false;">Calculation</a>
+
+<a href="http://127.0.0.1:5000/help" class="button">Help</a>
+
+
+<a href="http://127.0.0.1:5000/" class="backtostart">Back to START</a>
+
+<h3>Help Page: Q&A</h3>
+
+<div class="rectangle3"></div>
+
+<ul class="helptext1">
+   <div><strong><u>How is the Pairwise comparison working:</u></strong></div>
+    <br>
+    <li>In the Analytic Hierarchy Process (AHP), pairwise comparison involves comparing elements of a <br>
+        decision-making hierarchy to determine their relative importance or preference. Users assign numerical <br>
+        values to indicate the strength of preference or importance between pairs of elements. This process helps <br>
+        to quantify subjective judgments and preferences. <br>
+        User input is crucial in AHP because it reflects their preferences, values, and priorities, which are <br>
+        essential for making informed decisions. By involving users in pairwise comparisons, AHP captures their <br>
+        subjective assessments, leading to more accurate and meaningful results. This input ensures that the <br>
+        final decision reflects the stakeholders' preferences and goals.</li>
+   <br>
+    <br>
+  <li><strong><u>Why do I need to use the Saaty's scale?</u></strong></li>
+    <br>
+    <li>The Saaty's scale is a set of numerical values used in the Analytic Hierarchy Process (AHP), a <br>
+        decision-making methodology. It provides a consistent and structured way for decision-makers to <br>
+        express their preferences in pairwise comparisons. The scale is essential for creating a matrix <br>
+        of comparisons, which is then used in mathematical calculations to determine priority weights <br>
+        for decision criteria. The Saaty's scale ensures that judgments are consistent, allowing for a <br>
+        reliable and systematic decision-making process.</li>
+    <br>
+    <br>
+    <div><strong><u>More information about the calculation:</u></strong></div>
+    <br>
+    <li>In AHP, after users provide pairwise comparisons, the calculations involve three main steps:<br>
+<strong>1) Normalization:</strong> Pairwise comparison matrices are normalized to ensure consistency<br>
+        and comparability. Each comparison matrix is transformed into a matrix of priority values by dividing <br>
+        each element by the sum of its column. <br>
+<strong>2) Weight Calculation:</strong> The priority values obtained from normalization are averaged across <br>
+        each row to calculate the weight of each criterion or alternative. These weights represent the relative <br>
+        importance of each element in the hierarchy. <br>
+<strong>3) Consistency Check:</strong> A consistency check is performed to ensure the reliability of the comparisons<br>
+        made by users. The Consistency Ratio (CR) is calculated to assess the consistency of the judgments <br>
+        provided. If the CR exceeds a certain threshold (typically 0.1), users may need to review and adjust <br>
+        their comparisons to improve consistency.<br>
+
+</ul>
+
+<ul class="helptext2">
+
+  <li><strong><u>Which information is necessary for the calculation?</u></strong></li>
+    <br>
+    <li>The result is based on user input about personal criteria <br>
+        preferences. It is particularly important that the user <br>
+        analyses his use case in advance and has a rough idea <br>
+        of what is particularly important to him. In addition, <br>
+        the technological characteristics from a comprehensive <br>
+        literature research were used and taken into account in <br>
+        the technology assessment.</li>
+    <br>
+    <br>
+  <li><strong><u>How is the result calculated?</u></strong></li>
+    <br>
+    <li>The result will be calculated based on the AHP <br>
+        calculation method. Analytic Hierarchy Process (AHP) <br>
+        is a decision-making methodology that systematically <br>
+        breaks down complex problems into a hierarchy of <br>
+        criteria and alternatives, facilitating pairwise <br>
+        comparisons to quantify preferences and derive <br>
+        a consistent overall ranking or choice.</li>
+    <br>
+    <br>
+  <li><strong><u>Why I can only compare this seven criteria?</u></strong></li>
+    <br>
+    <li>These seven criteria were identified as part of a <br>
+        comprehensive literature analysis.
+        The first step was to search for important criteria <br>
+        for the selection of technology and then only those
+        criteria were selected that are particularly relevant <br>
+        for the selection of indoor localisation technology</li>
+    <br>
+</ul>
+
+
+
+</body>
+</html>

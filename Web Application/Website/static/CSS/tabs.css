@@ -1,0 +1,71 @@
+body {
+
+}
+.mytabs {
+	display:flex;
+	flex-direction: column;  /* Tabs untereinander*/
+	max-width: 200px;
+	margin: 50px auto;
+	padding: 25px;
+	position: absolute;
+	top: 50px;
+	left: 0;
+	text-align: left;
+}
+
+/* remove radio sign */
+
+.mytabs input[type="radio"] {
+	display: none;
+}
+
+/* order 0 says, "Reiter" to the top of the page */
+
+.mytabs label {
+	padding: 25px;
+	background: #e2e2e2;
+	font-weight: bold;
+	order: 0;
+}
+
+/* display: none, says display only the selected tab */
+
+.mytabs .tab {
+	width: 100%;
+	padding: 20px;
+	background: white;
+	order: 1;
+	display: none;
+	position: absolute;
+	top: 0px;
+	left: 300px;
+}
+.mytabs .tab h2 {
+	font-size: 24px;
+}
+
+.mytabs input[type='radio']:checked + label + .tab {
+	display: block;
+}
+
+/* highlight the selected tab with colour */
+
+.mytabs input[type="radio"]:checked + label {
+	background: lightskyblue;
+}
+
+.mytabs label:hover {
+    cursor: pointer; /* Cursor-Typ */
+}
+
+.subtabs {
+	display:flex;
+	flex-direction: column;  /* Tabs untereinander*/
+	max-width: 400px;
+	margin: 10px;
+	padding: 5px;
+	position: absolute;
+	top: 280px;
+	left: 0;
+	text-align: left;
+}
